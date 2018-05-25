@@ -173,7 +173,7 @@ declare namespace jest {
     /**
      * Creates a mock function similar to jest.fn but also tracks calls to object[methodName]
      */
-    function spyOn<T extends {}, M extends keyof T>(object: T, method: M, accessType?: 'get' | 'set'): SpyInstance<T[M]>;
+    function spyOn<T extends {}, M extends keyof T>(object: T, method: M, accessType?: 'get' | 'set'): MockInstance<T[M]>;
     /**
      * Indicates that the module system should never return a mocked version of
      * the specified module from require() (e.g. that it should always return the real module).
@@ -515,10 +515,6 @@ declare namespace jest {
         (...args: any[]): any;
     }
 
-    interface SpyInstance<T = {}> extends MockInstance<T> {
-        mockRestore(): void;
-    }
-
     /**
      * Wrap module with mock definitions
      *
@@ -538,6 +534,7 @@ declare namespace jest {
         mock: MockContext<T>;
         mockClear(): void;
         mockReset(): void;
+        mockRestore(): void;
         mockImplementation(fn: (...args: any[]) => any): Mock<T>;
         mockImplementationOnce(fn: (...args: any[]) => any): Mock<T>;
         mockName(name: string): Mock<T>;
